@@ -1,4 +1,5 @@
 """
+=== Step 1 ===
 This program examines pick up dates in the raw data.
 Counts each row grouped by year and month for each file individually
 to gain information about faulty data
@@ -9,7 +10,8 @@ from pyspark.sql.functions import year, month, count
 spark = SparkSession.builder.getOrCreate()
 
 # Uncomment and change output path
-#f = open(f"/home/s3263371/project_script/out/clear/pickup_dates.txt", 'a')
+# f = open(f"/home/s3263371/project_script/out/clear/pickup_dates.txt", 'a')
+# f = open(f"/home/s3266443/BigData-NYCTaxis/out/clear/pickup_dates.txt", 'a')
 
 start_year = 2011
 end_year = 2023

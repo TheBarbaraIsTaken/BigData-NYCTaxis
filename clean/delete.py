@@ -1,4 +1,5 @@
 """
+=== Step 2 ===
 This code reads each file and filters out every row,
 where the date (pick up or drop off) is not in a +/- 1 month interval of the date in the file name.
 """
@@ -37,5 +38,6 @@ for y in range(start_year, start_year+1):
         )
 
         # Overwrite results on hdfs
+        # out = f"/user/s3266443/dataset/taxi/clean_tripdata_{y}-{m}.parquet"
         out = f"/user/s3263371/project/taxi/clean_tripdata_{y}-{m}.parquet"
         df_filtered.write.parquet(out, mode="overwrite")
