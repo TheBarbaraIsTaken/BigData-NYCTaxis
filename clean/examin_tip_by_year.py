@@ -8,7 +8,7 @@ from pyspark.sql.functions import avg, col
 spark = SparkSession.builder.getOrCreate()
 
 # Uncomment and change output path
-# f = open("/home/s3263371/project_script/out/statistics.txt", "w")
+# f = open("/home/s3263371/project_script/out/clear/tip_by_year.txt", "w")
 print("year total null_count non_zero_count non_zero_tip_avg tip_avg", file=f)
 
 tips = ["Tip_Amt"] + ["tip_amount" for i in range(14)]

@@ -10,7 +10,7 @@ spark = SparkSession.builder.getOrCreate()
 CORRUPT_COL = "_corrupt_record"
 
 # Uncomment and change output path
-# f = open("/home/s3263371/project_script/out/corrupted.txt", "w")
+# f = open("/home/s3263371/project_script/out/clear/corrupted.txt", "w")
 print("Original files:", file=f)
 
 # Read file

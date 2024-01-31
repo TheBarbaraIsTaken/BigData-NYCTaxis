@@ -7,7 +7,7 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.getOrCreate()
 
 # Uncomment and change output path
-# f = open("/home/s3263371/project_script/out/default_columns.txt", 'w')
+# f = open("/home/s3263371/project_script/out/clear/column_names.txt", 'w')
 
 start_year = 9
 end_year = 23
