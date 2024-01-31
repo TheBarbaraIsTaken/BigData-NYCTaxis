@@ -1,1 +1,15 @@
-
+cff-version: 1.0.0
+authors:
+- family-names: "Szabo"
+  given-names: "Barbara Noemi"
+- family-names: "Józsa"
+  given-names: "György"
+- family-names: "Di Francesco"
+  given-names: "Marco"
+- family-names: "Pennings"
+  given-names: "Niek"
+- family-names: "Joosten"
+  given-names: "Wesley"
+title: "BigData-NYCTaxis"
+date-released: 2024-1-31
+url: "https://github.com/TheBarbaraIsTaken/BigData-NYCTaxis"
