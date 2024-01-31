@@ -1,10 +1,10 @@
 """
-=== Step 3 ===
+=== Step 4 ===
 This program is for checking cleaned data.
 It reads all files and groups by year
 """
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import year, month, count
+from pyspark.sql.functions import year, count
 
 spark = SparkSession.builder.getOrCreate()
 
@@ -17,7 +17,7 @@ sorted_df = grouped_df.orderBy("pickup_year")
 
 # Write output
 # Uncomment and change output path
-#n = 20
-#with open(f"/home/s3263371/project_script/out/clear/check.txt", 'w') as f:
-#    print(f"First {n} rows of {sorted_df.count()}\n", file=f)
-#    print(*sorted_df.take(n), sep='\n', file=f)
+# n = 20
+# with open(f"/home/s3263371/project_script/out/clear/check.txt", 'w') as f:
+#     print(f"First {n} rows of {sorted_df.count()}\n", file=f)
+#     print(*sorted_df.take(n), sep='\n', file=f)
