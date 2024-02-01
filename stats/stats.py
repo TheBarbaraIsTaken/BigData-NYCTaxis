@@ -10,13 +10,16 @@ from pyspark.sql import functions as F
 import matplotlib.pyplot as plt
 
 """
-Command to execute:
-> cd /home/s3266443/project-group23/
-> time spark-submit --conf spark.dynamicAllocation.maxExecutors=10 main.py 2> /dev/null
-
-Files to read in these folders:
+Dataset files location:
 > hdfs dfs -ls /user/s3263371/project/buildings
 > hdfs dfs -ls /user/s3263371/project/taxi
+
+Copy zoning.parquet to HDFS:
+> hdfs dfs -copyFromLocal zone-mapping/out/zoning.parquet /user/s3266443/dataset/zone-mapping/zoning.parquet
+
+Execute spark-submit:
+> cd /home/s3266443/BigData-NYCTaxis/
+> time spark-submit --conf spark.dynamicAllocation.maxExecutors=10 main.py 2> /dev/null
 """
 
 spark = SparkSession.builder.getOrCreate()
@@ -40,7 +43,7 @@ def drop_cols(df):
         # df = df.withColumn("airport_fee", col("airport_fee").cast("double"))
     - Dropping column
     """
-    df = df.drop("airport_fee")
+    # df = df.drop("airport_fee")
     return df
 
 df = drop_cols(df)
@@ -82,7 +85,6 @@ def tip_amount_by_zone(df):
     df_tip = df_tip.groupBy("Zone").agg(F.mean("tip_amount").alias("tip_amount"))
     df_tip = df_tip.orderBy("tip_amount", ascending=False)
     df_tip = df_tip.dropna()
-    df_tip.show()
 
     df_tip_pd = df_tip.toPandas()
     plt.bar(df_tip_pd["Zone"], df_tip_pd["tip_amount"])
@@ -90,6 +92,30 @@ def tip_amount_by_zone(df):
     plt.ylabel('Tip Amount')
     plt.title('Tip Amount by Zone')
     plt.xticks(rotation=15)
-    plt.savefig("tip_amount.png")
+    plt.savefig("results-tip-per-zone.png")
 
 tip_amount_by_zone(df)
+
+def tip_amount_by_zone_normalized(df):
+    # Chart tipping amount (y-axis) by zone (x-axis)
+    df_tip = df
+    df_tip = df_tip.withColumn("tip_amount_by_dist", col("tip_amount") / col("trip_distance"))
+    df_tip = df_tip.fillna({'tip_amount_by_dist': 0.0})
+    df_tip = df_tip.groupBy("Zone").agg(
+        F.mean("tip_amount_by_dist").alias("mean_tip_amount_by_dist"),
+        F.variance("tip_amount_by_dist").alias("variance_tip_amount_by_dist")
+    )
+    df_tip = df_tip.orderBy("tip_amount_by_dist", ascending=False)
+    df_tip = df_tip.dropna()
+
+    df_tip_pd = df_tip.toPandas()
+    plt.clf()
+    # plt.bar(df_tip_pd["Zone"], df_tip_pd["tip_amount"])
+    plt.bar(df_tip_pd["Zone"], df_tip_pd["tip_amount_by_dist"])
+    plt.xlabel('Zone')
+    plt.ylabel('Tip Amount ($)/Trip Distance (miles)')
+    plt.title('Tip Amount by Zone normalized by Length of Trip')
+    plt.xticks(rotation=15)
+    plt.savefig("results-tip-per-zone-normalized.png")
+
+tip_amount_by_zone_normalized(df)
